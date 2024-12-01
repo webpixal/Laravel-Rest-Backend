@@ -2,25 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CustomerModel extends Model
 {
     use HasFactory;
 
-    // Specify the table name (if not default 'customers')
+    // Specify the table name (if it doesn't follow Laravel's naming convention)
     protected $table = 'customers';
 
-    // Specify the primary key (if not default 'id')
-    protected $primaryKey = 'id';
+    // Define the fillable attributes for mass assignment
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'address',
+    ];
 
-    // Allow mass assignment for these attributes
-    protected $fillable = ['name', 'email', 'phone'];
-
-    // Optional: Specify if timestamps are enabled (default is true)
-    public $timestamps = true;
-
-    // Optional: If your database doesn't use 'created_at' and 'updated_at', you can specify custom column names:
-    const CREATED_AT = 'creation_date';
-    const UPDATED_AT = 'last_update';
+    // Optionally, you can define relationships here if needed
 }

@@ -2,30 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CustomerModel;
 use Illuminate\Http\Request;
+use App\Models\CustomerModel;
 
 class CustomerController extends Controller
 {
-    public function addCustomer(Request $request)
-    {
-        try {
-            $validatedData = $request->validate([
-                'name' => 'string|max:255',
-                'email' => 'email|unique:customers,email',
-                'phone' => 'string|max:15',
-            ]);
-
-            $customer = Customer::create($validatedData);
-
-            return response()->json(['status' => "Data has been inserted"], 201);
-        } catch (\Exception $e) {
-            return response()->json(['status' => "Operation Failed", 'error' => $e->getMessage()], 500);
-        }
+    function getCustomer(){
+        $customers = CustomerModel::all(); // Fetch all customers
+        return response()->json($customers, 200);
     }
 
 
-    public function get(){
-        
+    public function addCustomer(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:customers,email',
+            'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string|max:255',
+        ]);
+
+        $customers = CustomerModel::create($validated);
+        return response()->json($customers, 201);
     }
 }
